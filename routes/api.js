@@ -18,24 +18,14 @@
 let expect = require("chai").expect;
 let mongodb = require("mongodb");
 let mongoose = require("mongoose");
-const { Schema } = mongoose;
 
+//const { createIssue, readIssueList, updateIssue, deleteIssue } = require("../handleInput/CRUD")
+//const { postProblems, idProblems } = require("../handleInput/handleIssues")
+
+
+//import functions from as 
 module.exports = function (app) {
 
-  
-  const IssueSchema = new Schema({
-    issue_title: { type: String, required: true },
-    issue_text: { type: String, required: true },
-    created_on: { type: Date, required: true },
-    updated_on: { type: Date, required: true },
-    created_by: { type: String, required: true },
-    assigned_to: String,
-    open: { type: Boolean, required: true} ,
-    status_text: String,
-    project: String,
-  });
-
-const Issue = mongoose.model("Issue", IssueSchema);
 
   app.route('/api/issues/:project')
 
@@ -48,7 +38,7 @@ const Issue = mongoose.model("Issue", IssueSchema);
     
     .post(function (req, res){
       let project = req.params.project;
-  
+ /* 
       let newIssue = new Issue({
         issue_title: req.body.issue_title,
         issue_text: req.body.issue_text,
@@ -68,6 +58,7 @@ const Issue = mongoose.model("Issue", IssueSchema);
           res.json(savedIssue);
         }
       })
+        */
     })
     
     .put(function (req, res){
