@@ -1,18 +1,15 @@
 'use strict';
 
-require('dotenv').config();
-//const myDB = require("./connection");
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const expect      = require('chai').expect;
 const cors        = require('cors');
+require('dotenv').config();
 
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
 
-//const uri = process.env.MONGO_URI;
-const myDB = require("./connection")
 let app = express();
 
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -48,24 +45,6 @@ app.use(function(req, res, next) {
     .type('text')
     .send('Not Found');
 });
-
-
-/* DELETE ABOVE FCC AND API FIRST
-//Routing for API 
-myDB(async client => {
-  const db = await client.db('database');
-
-  const myDataBase = (await db.listCollections({ name: 'issues' }).next() ? await db.collection('issues') : await db.createCollection('issues'));
-
-  //For FCC testing purposes 
-  fccTestingRoutes(app);
-  apiRoutes(app, myDataBase);
-
-}).catch(e => {
-  console.log(e);
-});
-
-*/
 
 //Start our server and tests!
 const listener = app.listen(process.env.PORT || 3000, function () {
