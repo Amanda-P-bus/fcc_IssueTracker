@@ -56,10 +56,6 @@ module.exports = function (app) {
       }
       
     }))
-    //{ error: 'could not update', '_id': _id }
-    //{ error: 'no update field(s) sent', '_id': _id }
-    //{ error: 'missing _id' }
-    //{  result: 'successfully updated', '_id': _id }
 
     //update function
     .put(asyncHandler(async (req, res) => {
@@ -73,10 +69,11 @@ module.exports = function (app) {
           {
             return res.json({error: "missing _id"}); }
 
-        let updater = req.body.updated_on
-      // updater = new Date().toUTCString();
-        
-        const issue = await Issue.findByIdAndUpdate(id, req.body, updater, {new: true});
+    let resObj = {}
+
+     resObj["updated_on"] = new Date().toUTCString();
+
+        const issue = await Issue.findByIdAndUpdate(id, resObj, {new: true});
 
         //if no fields are filled in, error
         if (id && !req.body.issue_title && !req.body.issue_text && !req.body.created_by && !req.body.assigned_to && !req.body.status_text)
@@ -89,7 +86,6 @@ module.exports = function (app) {
           return res.status(201).json({error: noUp, _id: id}); 
 
         }
-
         //if found, update with above await, then return id
         let resSuccess = "successfully updated";
         res.status(201).json({result: resSuccess, _id: id});

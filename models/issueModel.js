@@ -25,12 +25,10 @@ const IssueSchema = new mongoose.Schema({
 
   created_on: { 
     type: Date, 
-    default: () => Date.now(), 
     required: true },
     
   updated_on: { 
     type: Date, 
-    default: () => Date.now(), 
     required: true },
 
   open: { 
