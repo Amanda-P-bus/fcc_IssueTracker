@@ -38,7 +38,8 @@ const IssueSchema = new mongoose.Schema({
     required:  true } ,
 
     project: { 
-      type: String, }
+      type: String, 
+      default: "project"}
 
 });
 
