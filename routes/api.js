@@ -70,7 +70,11 @@ module.exports = function (app) {
             return res.json({error: "missing _id"}); }
 
     let resObj = {}
-
+  Object.keys(req.body).forEach(key => {
+    if (req.body[key] !== "") {
+      resObj[key] = req.body[key];
+    }
+  })          
      resObj["updated_on"] = new Date().toUTCString();
 
         const issue = await Issue.findByIdAndUpdate(id, resObj, {new: true});
@@ -79,12 +83,16 @@ module.exports = function (app) {
         if (id && !req.body.issue_title && !req.body.issue_text && !req.body.created_by && !req.body.assigned_to && !req.body.status_text)
           {let noEnt = "no update field(s) sent";
             return res.status(201).json({error: noEnt, _id: id}); }
-       
+
+             
+          if (undefined)
+          {let noUptoo = "could not update"
+            return res.status(201).json({error: noUptoo, _id: id}) }
+           
         //if no issue is found (invalid) error
         if (!issue)
         { let noUp = "could not update"
-          return res.status(201).json({error: noUp, _id: id}); 
-
+          return res.status(201).json({error: noUp, _id: id});
         }
         //if found, update with above await, then return id
         let resSuccess = "successfully updated";
@@ -112,6 +120,10 @@ module.exports = function (app) {
           {let noCan = "could not delete";
           return res.status(201).json({error: noCan, _id: id});
           }
+
+               if (undefined)
+          {let noUptoo = "could not update"
+            return res.status(201).json({error: noUptoo, _id: id}) }
 
         let deleteSuc = "successfully deleted";
         res.status(201).json({result: deleteSuc, _id: id});
