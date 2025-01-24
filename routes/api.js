@@ -78,12 +78,12 @@ module.exports = function (app) {
 
         //if no fields are filled in, error
         if (id && !req.body.issue_title && !req.body.issue_text && !req.body.created_by && !req.body.assigned_to && !req.body.status_text)
-          {return res.status(201).json({"error": `no update field(s) sent, _id: ${id}`}); }
+          {return res.status(201).json({"error": "no update field(s) sent", "_id": id}); }
        
         //if no issue is found (invalid) error
         if (!issue)
         { 
-          return res.status(404).json({"error": `could not update _id: "${id}"`}); 
+          return res.status(404).json({"error": "could not update", "_id": id}); 
         }
 
         //if found, update with above await, then return id
@@ -105,10 +105,10 @@ module.exports = function (app) {
 
         if(!issueToDelete) 
           {
-          return res.status(404).json({"error": `could not delete _id: ${id}`});
+          return res.status(404).json({"error": "could not delete", "_id": id});
           }
 
-        res.status(201).json({"result": `successfully deleted _id: ${id}`});
+        res.status(201).json({"result": "successfully deleted", "_id": id});
       }
       catch (e) {
         console.log(e.message);
