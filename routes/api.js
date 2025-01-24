@@ -33,7 +33,7 @@ module.exports = function (app) {
       try {
       
         if (!req.body.issue_title || !req.body.issue_text || !req.body.created_by)
-        { return res.status(201).json({"error": "required field(s) missing"}) }
+        { return res.status(201).json({error: "required field(s) missing"}) }
 
       let newIssue = new Issue({
         issue_title: req.body.issue_title,
@@ -69,29 +69,34 @@ module.exports = function (app) {
       try {
         
          //if no _id filled in
-        if (!req.body._id)
+        if (!id)
           {
-            return res.json({"error": "missing _id"}); }
+            return res.json({error: "missing _id"}); }
 
+        let updater = req.body.updated_on
+      // updater = new Date().toUTCString();
         
-        const issue = await Issue.findByIdAndUpdate(id, req.body, {new: true});
+        const issue = await Issue.findByIdAndUpdate(id, req.body, updater, {new: true});
 
         //if no fields are filled in, error
         if (id && !req.body.issue_title && !req.body.issue_text && !req.body.created_by && !req.body.assigned_to && !req.body.status_text)
-          {return res.status(201).json({"error": "no update field(s) sent", "_id": id}); }
+          {let noEnt = "no update field(s) sent";
+            return res.status(201).json({error: noEnt, _id: id}); }
        
         //if no issue is found (invalid) error
         if (!issue)
-        { 
-          return res.status(404).json({"error": "could not update", "_id": id}); 
+        { let noUp = "could not update"
+          return res.status(201).json({error: noUp, _id: id}); 
+
         }
 
         //if found, update with above await, then return id
-        res.status(201).json({"result": `successfully updated _id: ${id}`});
+        let resSuccess = "successfully updated";
+        res.status(201).json({result: resSuccess, _id: id});
       }
       catch (e) {
         console.log(e.message);
-        res.status(500).json({message: e.message});
+        res.status(500).json({message: e.message, _id: id});
       }
     }))
    
@@ -103,16 +108,21 @@ module.exports = function (app) {
         const id = req.body._id;
         const issueToDelete = await Issue.findByIdAndDelete(id);
 
-        if(!issueToDelete) 
-          {
-          return res.status(404).json({"error": "could not delete", "_id": id});
+        if (!id)
+          {let noFind = "missing _id";
+            return res.status(201).json({error: noFind, _id: id});}
+
+        if(id && !issueToDelete) 
+          {let noCan = "could not delete";
+          return res.status(201).json({error: noCan, _id: id});
           }
 
-        res.status(201).json({"result": "successfully deleted", "_id": id});
+        let deleteSuc = "successfully deleted";
+        res.status(201).json({result: deleteSuc, _id: id});
       }
       catch (e) {
         console.log(e.message);
-        res.status(500).json({message: e.message});
+        res.status(500).json({message: e.message, _id: id});
       }
     }));
     
