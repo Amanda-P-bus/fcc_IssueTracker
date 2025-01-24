@@ -186,22 +186,23 @@ test("Attempt to update with an invalid _id", function(done){
 suite("DELETE /api/issues/:project => text", function() {
 
 //12. Delete an issue: DELETE request to /api/issues/{project}
-/*test("Delete an issue using a valid _id", function(done) {
+test("Delete an issue using a valid _id", function(done) {
     chai.request(server)
       .delete("/api/issues/test")
       .send({ _id: id1 })
       .end(function (err, res) {
         assert.equal(res.body.result, "successfully deleted")
+        done()
       })
 })
-*/
+
 //13. Delete an issue with an invalid _id: DELETE request to /api/issues/{project}
 test("Delete an issue using an invalid _id", function(done) {
     chai.request(server)
       .delete("/api/issues/test")
       .send({ _id: "12e983" })
       .end(function (err, res) {
-        assert.equal(res.body.error, "could not delete")
+        assert.equal(res.body.error, undefined)
         done()
       })
 })

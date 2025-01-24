@@ -41,8 +41,8 @@ module.exports = function (app) {
         created_by: req.body.created_by,
         assigned_to: req.body.assigned_to || "",
         status_text: req.body.status_text || "",
-        created_on: new Date().toUTCString(),
-        updated_on: new Date().toUTCString(),
+        created_on: new Date(),
+        updated_on: new Date(),
         open: true,
         project: project
       })
@@ -71,11 +71,11 @@ module.exports = function (app) {
 
     let resObj = {}
   Object.keys(req.body).forEach(key => {
-    if (req.body[key] !== "") {
+    if (req.body[key] !== "" && req.body[key] !== "created_on") {
       resObj[key] = req.body[key];
     }
   })          
-     resObj["updated_on"] = new Date().toUTCString();
+     resObj["updated_on"] = new Date();
 
         const issue = await Issue.findByIdAndUpdate(id, resObj, {new: true});
 
